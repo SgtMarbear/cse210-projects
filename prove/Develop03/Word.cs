@@ -1,5 +1,5 @@
-
-public class Word {
+public class Word
+{
     private string _text;
     private bool _isHidden;
 
@@ -9,32 +9,18 @@ public class Word {
         _isHidden = false;
     }
 
+    // Hide the word by setting _isHidden to true
     public void Hide()
     {
         _isHidden = true;
     }
 
-    public void Show()
-    {
-        _isHidden = false;
-    }
+    // Check if the word is hidden
+    public bool IsHiddenWord() => _isHidden;
 
-    public bool IsHiddenWord()
-    {
-        return _isHidden;
-    }
-
+    // This method returns the word with underscores if hidden, or the actual word if not
     public string GetRenderedText()
     {
-        string hiddenText = "";
-        foreach (char c in _text)
-        {
-            hiddenText += "_";
-        }
-        return hiddenText;
+        return _isHidden ? new string('_', _text.Length) : _text;
     }
-
-
 }
-
-

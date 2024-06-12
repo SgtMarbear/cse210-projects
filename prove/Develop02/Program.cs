@@ -36,14 +36,16 @@ class Program
                 string entry = Console.ReadLine();
 
                 entries.Add(dateText + " " + name + " " + currentPrompt + '\n' + entry);
+                Console.WriteLine("Thank you! Your journal entry has been saved in the system!");
 
             }
             else if (input == 2) {
                 entries.ForEach(entry => Console.WriteLine(entry));
             }
             else if (input == 3) {
-                Entry newEntry = new Entry();
-                newEntry.saveTheFile(entries);
+                FileInteraction newFileInteraction = new FileInteraction();
+                newFileInteraction.saveTheFile(entries);
+                Console.WriteLine("Your journal has been saved in a file");
             }
             else if (input == 4) {
                 Console.WriteLine("Enter a file name: ");
