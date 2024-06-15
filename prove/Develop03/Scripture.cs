@@ -3,12 +3,12 @@ public class Scripture
     private Reference _reference;
     private List<Word> _words;
 
-    public Scripture(Reference reference)
+    public Scripture(Reference reference, string verseContent)
     {
         _reference = reference;
-        _words = reference.VerseContent.Split(' ')
-                                        .Select(word => new Word(word))
-                                        .ToList();
+            _words = verseContent.Split(' ')
+                                 .Select(word => new Word(word))
+                                 .ToList();
     }
 
     // This method hides a specific number of unhidden words
