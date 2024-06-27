@@ -3,21 +3,25 @@
 public class Entry {
 
     public static List<List<string>> entries = new List<List<string>>();
+    private string _name;
+    private string _currentPrompt;
+    private string _dateText;
+    private string _entry;
 
 
     public void WriteEntry() {
         // I added some extra code to save the entry author's name to the entry.
         Console.WriteLine("Enter your name");
-        string name = Console.ReadLine();
+        _name = Console.ReadLine();
         PromptGenerator p = new PromptGenerator();
-        string currentPrompt = p.Prompt();
-        Console.WriteLine(currentPrompt);
+        _currentPrompt = p.Prompt();
+        Console.WriteLine(_currentPrompt);
 
         DateTime currentTime = DateTime.Now;
-        string dateText = currentTime.ToShortDateString();
-        string entry = Console.ReadLine();
+        _dateText = currentTime.ToShortDateString();
+        _entry = Console.ReadLine();
 
-        List<string> newRow = new List<string> { name, dateText, currentPrompt, entry };
+        List<string> newRow = new List<string> { _name, _dateText, _currentPrompt, _entry };
         entries.Add(newRow);
         Console.WriteLine("Thank you! Your journal entry has been saved in the system!");
     }
