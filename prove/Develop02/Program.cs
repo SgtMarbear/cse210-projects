@@ -4,8 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Entry journal = new Entry();
-        FileInteraction newFileInteraction = new FileInteraction();
+        List<string> entries;
+        entries = new List<string>();
 
         while(true){
             Console.WriteLine("------------------------------------");
@@ -24,30 +24,38 @@ class Program
             int input = int.Parse(user);
 
             if(input == 1) {
-                journal.WriteEntry();
+                // I added some extra code to save the entry author's name to the entry.
+                Console.WriteLine("Enter your name");
+                string name = Console.ReadLine();
+                PromptGenerator p = new PromptGenerator();
+                string currentPrompt = p.Prompt();
+                Console.WriteLine(currentPrompt);
+
+                DateTime currentTime = DateTime.Now;
+                string dateText = currentTime.ToShortDateString();
+                string entry = Console.ReadLine();
+
+                entries.Add(dateText + " " + name + " " + currentPrompt + '\n' + entry);
 
             }
             else if (input == 2) {
-                journal.DisplayJournal();
+                entries.ForEach(entry => Console.WriteLine(entry));
             }
             else if (input == 3) {
-                newFileInteraction.SaveTheFile();
+                Entry newEntry = new Entry();
+                newEntry.saveTheFile(entries);
             }
             else if (input == 4) {
-                newFileInteraction.LoadJournalFromFile();
+                Console.WriteLine("Enter a file name: ");
+                string fileName = Console.ReadLine();
+                loadJournalFromFile(fileName, entries);
+                Console.WriteLine("Journal loaded from file.");
                 
             }
             else if (input == 5) {
                 // This is an extra option I added for the user to change the way their journal is displayed
-                var sortedEntries = Entry.entries.OrderBy(entry => entry[0]).ToList();
-                sortedEntries.ForEach(entry => {
-                    Console.WriteLine($"Author: {entry[0]}");
-                    Console.WriteLine($"Date: {entry[1]}");
-                    Console.WriteLine($"Prompt: {entry[2]}");
-                    Console.WriteLine($"Entry: {entry[3]}");
-                    Console.WriteLine(new string('-', 60));
-                    Console.WriteLine();
-                });
+                entries.Sort();
+                entries.ForEach(entry => Console.WriteLine(entry));
             }
             else {
                 Console.Write("Thanks for using this program! See you later!");
@@ -55,5 +63,18 @@ class Program
             }
         } 
 
+    }
+    static void loadJournalFromFile(string fileName, List<string> entries)
+    {
+        if (File.Exists(fileName))
+        {
+            entries.Clear();
+            string[] lines = File.ReadAllLines(fileName);
+            entries.AddRange(lines);
+        }
+        else
+        {
+            Console.WriteLine("File not found.");
+        }
     }
 }
