@@ -1,22 +1,26 @@
-
-public class Scripture {
+public class Scripture
+{
     private Reference _reference;
     private List<Word> _words;
 
-    public Scripture(Reference reference, string text)
+    public Scripture(Reference reference, string verseContent)
     {
         _reference = reference;
-        _words = text.Split(' ').Select(word => new Word(word)).ToList();
+            _words = verseContent.Split(' ')
+                                 .Select(word => new Word(word))
+                                 .ToList();
     }
-
 
     public void HideRandomWord(int count)
     {
         Random random = new Random();
-        for (int i = 0; i < count; i++)
+        List<Word> visibleWords = _words.Where(word => !word.IsHiddenWord()).ToList();
+
+        for (int i = 0; i < count && visibleWords.Count > 0; i++)
         {
-            int index = random.Next(0, _words.Count);
-            _words[index].Hide();
+            int index = random.Next(0, visibleWords.Count);
+            visibleWords[index].Hide();
+            visibleWords.RemoveAt(index);
         }
     }
 
@@ -25,31 +29,15 @@ public class Scripture {
         return _words.All(word => word.IsHiddenWord());
     }
 
-    // public string GetRenderedText()
-    // {
-    //     string renderedText = "";
-    //     foreach (Word word in _words)
-    //     {
-    //         renderedText += word.GetRenderedText() + " ";
-    //     }
-    //     return renderedText.Trim();
-    // }
     public string GetRenderedText()
     {
-        string renderedText = "";
-        foreach (Word word in _words)
-        {
-            renderedText += word.GetRenderedText() + " ";
-        }
-        return renderedText.Trim();
+        return string.Join(" ", _words.Select(word => word.GetRenderedText()));
     }
-
 
     public void ClearConsoleAndDisplayScripture()
     {
         Console.Clear();
-        Console.WriteLine(_reference.displayReference());
+        Console.WriteLine(_reference.DisplayReference());
         Console.WriteLine(GetRenderedText());
     }
 }
- 

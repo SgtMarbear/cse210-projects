@@ -1,20 +1,25 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Reference reference = new Reference("Proverbs", 3, 5, "Trust in the Lord with all thine heart; and lean not unto thine own understanding.");
+        Reference reference = new Reference("Proverbs", 3, 5, 6);
+        Scripture scripture = new Scripture(reference, "Trust in the Lord with all thine heart; and lean not unto thine own understanding.");
 
-        Scripture scripture = new Scripture(reference, reference.VerseContent);
         scripture.ClearConsoleAndDisplayScripture();
+        String input = "";
 
-        while (true)
+        while (input != "quit")
         {
             Console.WriteLine("Press Enter to continue or type 'quit' to exit:");
-            string input = Console.ReadLine();
+            input = Console.ReadLine();
             if (input.ToLower() == "quit")
+            {
                 break;
+            }
 
             if (!scripture.AreAllWordsHidden())
             {
